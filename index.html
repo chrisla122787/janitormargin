@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JanitorMargin — Price cleaning contracts that actually make money</title>
+<meta name="description" content="JanitorMargin is a bid and profitability calculator for small commercial cleaning and janitorial companies. Know your real cost, set your margin, track your bids, and send a professional branded proposal.">
+<style>
+  :root{
+    --ink:#17263a; --muted:#5a6b80; --brand:#0e7a5f; --brand-dark:#0a5c48;
+    --bg:#f6f8fa; --card:#ffffff; --line:#dde4ea; --accent:#e8f4f0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg); color:var(--ink); line-height:1.55;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 20px;}
+  header{background:var(--ink); color:#fff;}
+  header .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 20px;}
+  .logo{font-size:22px; font-weight:800; letter-spacing:.2px;}
+  .logo span{color:#3ecfaa;}
+  header a{color:#fff; text-decoration:none; font-weight:600; font-size:15px;}
+  header a:hover{text-decoration:underline;}
+  .hero{padding:64px 0 48px; text-align:center;}
+  .hero h1{font-size:40px; line-height:1.15; max-width:720px; margin:0 auto 16px;}
+  .hero p{font-size:19px; color:var(--muted); max-width:640px; margin:0 auto 30px;}
+  .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .btn{display:inline-block; padding:14px 28px; border-radius:8px; font-size:17px; font-weight:700;
+       text-decoration:none; border:2px solid transparent; cursor:pointer;}
+  .btn-primary{background:var(--brand); color:#fff;}
+  .btn-primary:hover{background:var(--brand-dark);}
+  .btn-outline{background:#fff; color:var(--brand-dark); border-color:var(--brand);}
+  .btn-outline:hover{background:var(--accent);}
+  .price-note{margin-top:14px; color:var(--muted); font-size:15px;}
+  section{padding:44px 0;}
+  h2{font-size:27px; text-align:center; margin-bottom:30px;}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .step{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:24px;}
+  .step .num{width:36px; height:36px; border-radius:50%; background:var(--brand); color:#fff;
+             font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:12px;}
+  .step h3{font-size:18px; margin-bottom:8px;}
+  .step p{color:var(--muted); font-size:15px;}
+  .features{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+  .feature{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px;}
+  .feature h3{font-size:17px; margin-bottom:6px;}
+  .feature p{color:var(--muted); font-size:15px;}
+  .feature .tag{display:inline-block; font-size:11.5px; font-weight:800; letter-spacing:.4px;
+                padding:2px 8px; border-radius:20px; margin-bottom:8px;}
+  .tag-free{background:var(--accent); color:var(--brand-dark);}
+  .tag-pro{background:var(--ink); color:#fff;}
+  .pricing{background:var(--card); border:1px solid var(--line); border-radius:12px;
+           max-width:540px; margin:0 auto; padding:34px; text-align:center;}
+  .pricing .badge{display:inline-block; background:var(--warn-bg,#fdf0e6); background:#fdf0e6; color:#8a4b12;
+                  font-weight:800; font-size:13px; padding:4px 12px; border-radius:20px; margin-bottom:14px;}
+  .pricing .amount{font-size:46px; font-weight:800;}
+  .pricing .per{color:var(--muted); font-size:17px;}
+  .pricing .founding{margin-top:12px; font-size:15px; color:var(--ink);}
+  .pricing .standard{color:var(--muted); font-size:14px;}
+  .pricing ul{list-style:none; margin:20px 0 26px; text-align:left;}
+  .pricing li{padding:7px 0 7px 26px; position:relative; color:var(--ink); font-size:15.5px;}
+  .pricing li::before{content:"✓"; position:absolute; left:0; color:var(--brand); font-weight:800;}
+  .honest{background:var(--accent); border-radius:10px; padding:20px 24px; max-width:720px; margin:0 auto;
+          color:var(--brand-dark); font-size:15.5px; text-align:center;}
+  /* Sample proposal */
+  .sample-cap{text-align:center; color:var(--muted); font-size:14.5px; margin-top:14px;}
+  .sample-doc{background:#fff; border:1px solid var(--line); border-radius:6px; max-width:680px;
+              margin:0 auto; padding:38px 42px; box-shadow:0 4px 18px rgba(23,38,58,.07); text-align:left;}
+  .sample-doc .co{font-size:21px; font-weight:800; color:var(--ink);}
+  .sample-doc .contact{color:var(--muted); font-size:13.5px; margin-bottom:4px;}
+  .sample-doc .rule{height:3px; background:var(--brand); border-radius:2px; margin:10px 0 20px;}
+  .sample-doc h3{font-size:17px; margin-bottom:4px;}
+  .sample-doc .date{color:var(--muted); font-size:13.5px; margin-bottom:18px;}
+  .sample-doc h4{font-size:14.5px; margin:18px 0 8px;}
+  .sample-doc p, .sample-doc li{font-size:14.5px;}
+  .sample-doc ul{margin:0 0 6px 20px;}
+  .sample-doc .kv{display:flex; gap:10px; font-size:14.5px; padding:3px 0;}
+  .sample-doc .kv b{min-width:150px;}
+  .sample-doc .invest{font-size:16px; margin-top:6px;}
+  .sample-doc .invest b{color:var(--brand-dark); font-size:19px;}
+  .sample-doc .sig{margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:26px;}
+  .sample-doc .sig .line{border-top:1px solid var(--ink); padding-top:5px; font-size:12.5px; color:var(--muted);}
+  .policies{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .policy{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px;}
+  .policy h3{font-size:17px; margin-bottom:8px;}
+  .policy p{color:var(--muted); font-size:15px;}
+  footer{border-top:1px solid var(--line); padding:28px 0 40px; color:var(--muted); font-size:14.5px; text-align:center;}
+  footer a{color:var(--brand-dark);}
+  @media (max-width:720px){
+    .steps,.features,.policies{grid-template-columns:1fr;}
+    .hero h1{font-size:31px;}
+    .hero{padding:44px 0 34px;}
+    .sample-doc{padding:26px 22px;}
+    .sample-doc .sig{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">Janitor<span>Margin</span></div>
+    <a href="app.html">Open the calculator</a>
+  </div>
+</header>
+
+<div class="hero wrap">
+  <h1>Price cleaning contracts that actually make money.</h1>
+  <p>JanitorMargin is a bid calculator built for small commercial cleaning and janitorial companies.
+     Enter the job, see your true cost — labor, payroll burden, supplies, overhead — set your profit margin,
+     track every bid, and send a professional proposal with your logo on it.</p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="https://buy.stripe.com/00w00k2RB7yUeLqcWc0oM0n">Subscribe — $19/month founding price</a>
+    <a class="btn btn-outline" href="app.html">Try the calculator free</a>
+  </div>
+  <p class="price-note">The calculator and a watermarked proposal preview are free. Pro unlocks clean PDFs, saved bids, and the bid dashboard.</p>
+</div>
+
+<section class="wrap">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="num">1</div>
+      <h3>Enter the job</h3>
+      <p>Square footage, cleans per week, labor hours, your labor rate, payroll burden, and supplies. Thirty seconds of typing.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3>See your real numbers</h3>
+      <p>Your true cost per clean and a recommended bid price with overhead and profit margin built in — calculated correctly, so the margin you pick is the margin you keep.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3>Send a branded proposal</h3>
+      <p>Download a clean PDF proposal with your logo, your scope of work, and a signature block — ready to email to the facility manager.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>What you get</h2>
+  <div class="features">
+    <div class="feature">
+      <span class="tag tag-free">FREE</span>
+      <h3>Full bid calculator</h3>
+      <p>Every input, live numbers, and a plain-words warning if your margin drops under 10% — before you sign a contract that's too thin to survive one bad month.</p>
+    </div>
+    <div class="feature">
+      <span class="tag tag-free">FREE</span>
+      <h3>Watermarked proposal preview</h3>
+      <p>See exactly how your proposal will look — your company name, the client, the scope, and the price — right on screen, free.</p>
+    </div>
+    <div class="feature">
+      <span class="tag tag-pro">PRO</span>
+      <h3>Professional PDF proposals</h3>
+      <p>Your logo and contact info, an editable scope-of-work checklist, exclusions, payment terms, validity period, and a client signature block. Your internal costs and margin never appear on the customer copy — prices and scope only.</p>
+    </div>
+    <div class="feature">
+      <span class="tag tag-pro">PRO</span>
+      <h3>Bid dashboard &amp; backups</h3>
+      <p>Save every bid, mark it Draft, Sent, Follow-up, Won, or Lost, and watch your pipeline and won totals add up. Export a backup file or a CSV anytime — your data stays in your browser, under your control.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>See a sample proposal</h2>
+  <div class="sample-doc">
+    <div class="co">Evergreen Commercial Cleaning</div>
+    <div class="contact">(555) 013-4477 · bids@evergreencleaning.example</div>
+    <div class="rule"></div>
+    <h3>Commercial Cleaning Service Proposal</h3>
+    <div class="date">Prepared for: <strong>Oakwood Business Center</strong> · Date: November 23, 2026</div>
+
+    <h4>Facility &amp; service details</h4>
+    <div class="kv"><b>Facility</b><span>Oakwood Business Center</span></div>
+    <div class="kv"><b>Facility size</b><span>18,500 sq ft</span></div>
+    <div class="kv"><b>Service frequency</b><span>5 cleans per week (21.7 visits per month)</span></div>
+
+    <h4>Scope of work</h4>
+    <ul>
+      <li>Restrooms cleaned, sanitized &amp; restocked</li>
+      <li>Trash &amp; recycling removal, liners replaced</li>
+      <li>Vacuuming, sweeping &amp; mopping of floors</li>
+      <li>Common areas, lobbies &amp; hallways</li>
+      <li>Kitchen / break room cleaning</li>
+      <li>Interior glass &amp; entry doors</li>
+    </ul>
+    <p><em>Excludes: exterior windows, carpet extraction, and floor stripping/waxing (quoted separately).</em></p>
+
+    <h4>Investment</h4>
+    <p class="invest">Monthly investment: <b>$2,450.00</b></p>
+    <div class="kv"><b>Per-visit price</b><span>$113.08</span></div>
+    <div class="kv"><b>Annual contract value</b><span>$29,400.00</span></div>
+
+    <h4>Terms</h4>
+    <p>This proposal is valid for 30 days from the date above. Payment terms: Net 30 from invoice date. Final terms are set out in the service agreement.</p>
+
+    <div class="sig">
+      <div class="line">Accepted by (client name)</div>
+      <div class="line">Signature &amp; date</div>
+    </div>
+  </div>
+  <p class="sample-cap">Sample proposal — Evergreen Commercial Cleaning and Oakwood Business Center are fictional. Your proposals carry your logo, your scope, and your prices.</p>
+</section>
+
+<section class="wrap">
+  <h2>Simple pricing</h2>
+  <div class="pricing">
+    <div class="badge">FOUNDING MEMBERS — FIRST 25 CUSTOMERS</div>
+    <div class="amount">$19</div>
+    <div class="per">per month</div>
+    <p class="founding"><strong>$19/month founding-member pricing</strong> — locked in while your subscription stays active.</p>
+    <p class="standard">Standard price $29/month after the founding spots are gone.</p>
+    <ul>
+      <li>Full calculator + watermarked preview — free forever</li>
+      <li>Clean, branded PDF proposals with your logo</li>
+      <li>Unlimited saved bids + bid dashboard</li>
+      <li>Backup export / restore + CSV export</li>
+      <li>Works on phone, tablet, and computer</li>
+      <li>Cancel anytime</li>
+    </ul>
+    <a class="btn btn-primary" href="https://buy.stripe.com/00w00k2RB7yUeLqcWc0oM0n">Subscribe — $19/month founding price</a>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="honest">
+    <strong>Straight talk:</strong> JanitorMargin is a new tool from a small independent maker.
+    We don't post testimonials or customer counts we don't have. Try the calculator free —
+    if the numbers don't help you price better, don't subscribe.
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>The fine print, in plain words</h2>
+  <div class="policies">
+    <div class="policy">
+      <h3>Privacy</h3>
+      <p>Your bids, your company info, and your logo are stored only in your own browser on your own
+         device. Nothing you type into the calculator is uploaded to us or anyone else — there is no
+         account and no tracking of your numbers. Export a backup file from the app regularly, because
+         clearing your browser data erases what's saved here.</p>
+    </div>
+    <div class="policy">
+      <h3>Billing &amp; cancellation</h3>
+      <p>Subscriptions are billed monthly through Stripe. You can cancel anytime from your Stripe
+         receipt or the Stripe customer portal — no email to us required, no cancellation fee.
+         When you cancel, Pro stays active until the end of the period you already paid for, and the
+         free calculator keeps working either way.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    JanitorMargin · Questions? Email <a href="mailto:chrisla122787@gmail.com">chrisla122787@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
